@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Génie Maléfique — Le Cahier des Charges</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@500;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     UTILITIES — équivalent minimal de Tailwind (classes utilisées)
+     Breakpoints : sm=640px / md=768px / lg=1024px
+     ========================================================= */
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; padding: 0; }
+
+  .flex { display: flex; }
+  .grid { display: grid; }
+  .inline-block { display: inline-block; }
+  .relative { position: relative; }
+  .z-10 { z-index: 10; }
+  .hidden { display: none !important; }
+
+  .flex-wrap { flex-wrap: wrap; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; }
+  .gap-2 { gap: 0.5rem; }
+  .gap-3 { gap: 0.75rem; }
+  .gap-4 { gap: 1rem; }
+  .gap-6 { gap: 1.5rem; }
+
+  .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .text-center { text-align: center; }
+  .italic { font-style: italic; }
+  .leading-none { line-height: 1; }
+  .font-semibold { font-weight: 600; }
+
+  .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+  .text-base { font-size: 1rem; line-height: 1.5rem; }
+  .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+  .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+  .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+  .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+  .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+  .text-5xl { font-size: 3rem; line-height: 1; }
+  .text-6xl { font-size: 3.75rem; line-height: 1; }
+  .text-7xl { font-size: 4.5rem; line-height: 1; }
+  .text-8xl { font-size: 6rem; line-height: 1; }
+
+  .p-4 { padding: 1rem; }
+  .p-5 { padding: 1.25rem; }
+  .p-6 { padding: 1.5rem; }
+  .px-4 { padding-left: 1rem; padding-right: 1rem; }
+  .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+
+  .mb-1 { margin-bottom: 0.25rem; }
+  .mb-2 { margin-bottom: 0.5rem; }
+  .mb-3 { margin-bottom: 0.75rem; }
+  .mb-4 { margin-bottom: 1rem; }
+  .mb-5 { margin-bottom: 1.25rem; }
+  .mb-6 { margin-bottom: 1.5rem; }
+  .mb-8 { margin-bottom: 2rem; }
+  .mb-10 { margin-bottom: 2.5rem; }
+  .mt-1 { margin-top: 0.25rem; }
+  .mt-2 { margin-top: 0.5rem; }
+  .mt-3 { margin-top: 0.75rem; }
+  .mt-4 { margin-top: 1rem; }
+  .mt-6 { margin-top: 1.5rem; }
+  .mt-8 { margin-top: 2rem; }
+  .-mt-1 { margin-top: -0.25rem; }
+  .ml-1 { margin-left: 0.25rem; }
+  .mx-auto { margin-left: auto; margin-right: auto; }
+  .my-6 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+
+  .space-y-3 > * + * { margin-top: 0.75rem; }
+
+  .max-w-2xl { max-width: 42rem; }
+  .max-w-3xl { max-width: 48rem; }
+  .max-w-6xl { max-width: 72rem; }
+
+  .rounded { border-radius: 0.25rem; }
+
+  .border { border-width: 1px; border-style: solid; }
+  .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+  .border-amber-700\/30 { border-color: rgba(180, 83, 9, 0.3); }
+  .border-amber-900\/50 { border-color: rgba(120, 53, 15, 0.5); }
+
+  .bg-black\/30 { background-color: rgba(0, 0, 0, 0.3); }
+
+  .text-amber-100 { color: #fef3c7; }
+  .text-amber-200 { color: #fde68a; }
+  .text-amber-300 { color: #fcd34d; }
+  .text-amber-900 { color: #78350f; }
+  .text-amber-100\/60 { color: rgba(254, 243, 199, 0.6); }
+  .text-amber-100\/70 { color: rgba(254, 243, 199, 0.7); }
+  .text-amber-100\/80 { color: rgba(254, 243, 199, 0.8); }
+  .text-amber-200\/40 { color: rgba(253, 230, 138, 0.4); }
+  .text-amber-200\/70 { color: rgba(253, 230, 138, 0.7); }
+  .text-amber-50\/90 { color: rgba(255, 251, 235, 0.9); }
+  .text-amber-800\/80 { color: rgba(146, 64, 14, 0.8); }
+  .text-amber-900\/60 { color: rgba(120, 53, 15, 0.6); }
+  .text-green-300 { color: #86efac; }
+  .text-red-300 { color: #fca5a5; }
+
+  @keyframes tw-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  .animate-pulse { animation: tw-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+  @media (min-width: 640px) {
+    .sm\:gap-6 { gap: 1.5rem; }
+    .sm\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .sm\:p-8 { padding: 2rem; }
+    .sm\:p-10 { padding: 2.5rem; }
+    .sm\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+    .sm\:py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+    .sm\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .sm\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+    .sm\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+    .sm\:text-5xl { font-size: 3rem; line-height: 1; }
+    .sm\:text-7xl { font-size: 4.5rem; line-height: 1; }
+    .sm\:text-9xl { font-size: 8rem; line-height: 1; }
+  }
+  @media (min-width: 768px) {
+    .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1024px) {
+    .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  /* ========================================================= */
+  /* STYLES DU JEU (custom)                                    */
+  /* ========================================================= */
+
+  :root {
+    --noir-encre: #0a0612;
+    --violet-abysse: #1a0d2e;
+    --violet-profond: #2d1b4e;
+    --vert-poison: #7cffb2;
+    --vert-toxique: #4ade80;
+    --or-mystique: #d4a574;
+    --or-clair: #f4d6a0;
+    --rouge-sang: #c1121f;
+    --parchemin: #e8d8b7;
+    --parchemin-fonce: #c9b48f;
+    --encre: #2d1a0a;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--noir-encre);
+    color: var(--parchemin);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .mystic-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(124, 255, 178, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(212, 165, 116, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(45, 27, 78, 0.6) 0%, transparent 70%),
+      linear-gradient(180deg, #0a0612 0%, #1a0d2e 50%, #0a0612 100%);
+  }
+
+  .mystic-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+      radial-gradient(circle at 75% 60%, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+      radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.4) 1px, transparent 1px);
+    background-size: 100px 100px, 150px 150px, 200px 200px;
+    opacity: 0.4;
+    animation: twinkle 8s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+
+  .smoke {
+    position: fixed;
+    bottom: -200px;
+    left: -100px;
+    width: 120%;
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(124, 255, 178, 0.1) 0%, transparent 70%);
+    filter: blur(40px);
+    z-index: -1;
+    animation: smoke-rise 15s ease-in-out infinite;
+  }
+
+  @keyframes smoke-rise {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+    50% { transform: translateY(-100px) scale(1.2); opacity: 0.7; }
+  }
+
+  .font-grimoire { font-family: 'Pirata One', cursive; letter-spacing: 0.05em; }
+  .font-script { font-family: 'Caveat', cursive; }
+  .font-plume { font-family: 'Kalam', cursive; }
+
+  .text-mystique {
+    background: linear-gradient(135deg, var(--vert-poison) 0%, var(--or-clair) 50%, var(--vert-poison) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 40px rgba(124, 255, 178, 0.5);
+  }
+
+  .text-glow-green { text-shadow: 0 0 10px rgba(124, 255, 178, 0.6); }
+  .text-glow-gold { text-shadow: 0 0 10px rgba(212, 165, 116, 0.6); }
+
+  .grimoire-card {
+    background: linear-gradient(145deg, rgba(45, 27, 78, 0.85) 0%, rgba(26, 13, 46, 0.9) 100%);
+    border: 1px solid rgba(212, 165, 116, 0.3);
+    box-shadow: 0 0 60px rgba(124, 255, 178, 0.05), inset 0 0 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+  }
+
+  .grimoire-card::before, .grimoire-card::after {
+    content: '✦';
+    position: absolute;
+    color: var(--or-mystique);
+    font-size: 1.5rem;
+    opacity: 0.6;
+  }
+  .grimoire-card::before { top: 0.5rem; left: 0.5rem; }
+  .grimoire-card::after { bottom: 0.5rem; right: 0.5rem; }
+
+  .parchemin {
+    background: linear-gradient(135deg, rgba(232, 216, 183, 0.97) 0%, rgba(201, 180, 143, 0.95) 100%);
+    color: var(--encre);
+    border: 2px solid var(--or-mystique);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(139, 90, 43, 0.15);
+    position: relative;
+  }
+
+  .parchemin::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(139, 90, 43, 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 80% 60%, rgba(139, 90, 43, 0.08) 1px, transparent 1px),
+      radial-gradient(circle at 30% 90%, rgba(139, 90, 43, 0.1) 1px, transparent 1px);
+    background-size: 80px 80px, 120px 120px, 100px 100px;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .btn-mystique {
+    background: linear-gradient(135deg, #2d1b4e 0%, #1a0d2e 100%);
+    border: 1px solid var(--or-mystique);
+    color: var(--or-clair);
+    font-family: 'Pirata One', cursive;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.8rem 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .btn-mystique::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(124, 255, 178, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-mystique:hover::before { left: 100%; }
+  .btn-mystique:hover {
+    border-color: var(--vert-poison);
+    color: var(--vert-poison);
+    box-shadow: 0 0 30px rgba(124, 255, 178, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .btn-invoke {
+    background: linear-gradient(135deg, #c1121f 0%, #780000 100%);
+    color: var(--or-clair);
+    border: 1px solid var(--or-mystique);
+    font-family: 'Pirata One', cursive;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 40px rgba(193, 18, 31, 0.3);
+  }
+
+  .btn-invoke:hover:not(:disabled) {
+    box-shadow: 0 0 60px rgba(193, 18, 31, 0.6), 0 0 100px rgba(124, 255, 178, 0.2);
+    transform: scale(1.05);
+  }
+
+  .btn-invoke:disabled {
+    background: linear-gradient(135deg, #444 0%, #222 100%);
+    border-color: #666;
+    color: #999;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.6;
+  }
+
+  /* Style spécifique à la rédaction d'exigences */
+  .req-input {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px dashed #8b5a2b;
+    color: var(--encre);
+    font-family: 'Kalam', cursive;
+    font-size: 1.05rem;
+    padding: 0.7rem 1rem;
+    width: 100%;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .req-input:focus {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: #c1121f;
+    border-style: solid;
+    box-shadow: 0 0 0 3px rgba(193, 18, 31, 0.1);
+  }
+
+  .req-input::placeholder {
+    color: #8b5a2b;
+    opacity: 0.6;
+    font-style: italic;
+  }
+
+  .btn-add {
+    background: #5a3a14;
+    color: var(--or-clair);
+    border: 2px solid #8b5a2b;
+    padding: 0.5rem 1rem;
+    font-family: 'Pirata One', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-add:hover:not(:disabled) {
+    background: #8b5a2b;
+    transform: scale(1.03);
+  }
+
+  .btn-add:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .req-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(139, 90, 43, 0.08);
+    border-left: 3px solid #8b5a2b;
+    margin-bottom: 0.4rem;
+    animation: fade-in-up 0.3s ease-out;
+  }
+
+  .req-row .req-num {
+    font-family: 'Pirata One', cursive;
+    color: #8b5a2b;
+    min-width: 2rem;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+  }
+
+  .req-row .req-text {
+    flex: 1;
+    font-family: 'Kalam', cursive;
+    color: var(--encre);
+    font-size: 1.05rem;
+    word-break: break-word;
+  }
+
+  .req-row .req-remove {
+    background: none;
+    border: none;
+    color: #c1121f;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0 0.3rem;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+
+  .req-row .req-remove:hover {
+    opacity: 1;
+  }
+
+  .req-counter {
+    font-family: 'Pirata One', cursive;
+    color: #5a3a14;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .req-counter.full {
+    color: #c1121f;
+  }
+
+  /* Aspect report cards */
+  .aspect-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid;
+  }
+
+  .aspect-card.covered {
+    background: rgba(74, 222, 128, 0.08);
+    border-color: var(--vert-toxique);
+  }
+
+  .aspect-card.missed {
+    background: rgba(193, 18, 31, 0.08);
+    border-color: var(--rouge-sang);
+  }
+
+  .aspect-card.missed-secondary {
+    background: rgba(245, 158, 11, 0.08);
+    border-color: #f59e0b;
+  }
+
+  .aspect-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .aspect-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .aspect-label {
+    font-family: 'Pirata One', cursive;
+    letter-spacing: 0.05em;
+    color: var(--or-clair);
+    font-size: 0.95rem;
+  }
+
+  .aspect-quote {
+    font-family: 'Kalam', cursive;
+    color: #a3e4bc;
+    font-size: 0.85rem;
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  .aspect-hint {
+    color: #fca5a5;
+    font-size: 0.85rem;
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  /* Étoiles */
+  .stars-display {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 3rem;
+    margin: 1rem 0;
+  }
+
+  .star { color: #444; transition: all 0.5s ease; }
+
+  .star.filled {
+    color: var(--or-clair);
+    text-shadow: 0 0 20px rgba(212, 165, 116, 0.8), 0 0 40px rgba(212, 165, 116, 0.4);
+    animation: star-pop 0.5s ease-out forwards;
+  }
+
+  @keyframes star-pop {
+    0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+    60% { transform: scale(1.4) rotate(20deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+
+  @keyframes invoke {
+    0% { opacity: 0; transform: scale(0.5) rotate(-10deg); filter: blur(20px); }
+    50% { opacity: 0.8; transform: scale(1.1) rotate(5deg); filter: blur(5px); }
+    100% { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+  }
+  .invoke-anim { animation: invoke 1s ease-out forwards; }
+
+  .tampon {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    border: 4px solid;
+    padding: 0.5rem 1.5rem;
+    font-family: 'Pirata One', cursive;
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .tampon-fail { color: var(--rouge-sang); border-color: var(--rouge-sang); text-shadow: 2px 2px 0 rgba(0,0,0,0.2); }
+  .tampon-success { color: #2d6a4f; border-color: #2d6a4f; }
+
+  .object-choice {
+    background: linear-gradient(145deg, rgba(45, 27, 78, 0.6) 0%, rgba(26, 13, 46, 0.8) 100%);
+    border: 1px solid rgba(212, 165, 116, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .object-choice:hover {
+    border-color: var(--vert-poison);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(124, 255, 178, 0.2);
+  }
+
+  .object-choice .obj-emoji { font-size: 4rem; transition: transform 0.3s ease; }
+  .object-choice:hover .obj-emoji { transform: scale(1.2) rotate(-5deg); }
+
+  .score-badge {
+    background: linear-gradient(135deg, rgba(212, 165, 116, 0.2) 0%, rgba(124, 255, 178, 0.1) 100%);
+    border: 1px solid rgba(212, 165, 116, 0.5);
+    padding: 0.5rem 1rem;
+    font-family: 'Pirata One', cursive;
+    color: var(--or-clair);
+  }
+
+  .delivery-box {
+    background: linear-gradient(145deg, #3d2817 0%, #2a1c10 100%);
+    border: 4px solid #8b5a2b;
+    border-radius: 8px;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 10px 40px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  .delivery-box::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(90deg, #c1121f 0px, #c1121f 30px, #8b5a2b 30px, #8b5a2b 60px);
+    transform: translateY(-50%);
+    opacity: 0.6;
+  }
+
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: var(--noir-encre); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--violet-profond), var(--or-mystique));
+    border-radius: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="mystic-bg"></div>
+<div class="smoke"></div>
+<div class="smoke" style="animation-delay: -7s; left: 30%;"></div>
+
+<header class="relative z-10 px-4 sm:px-8 py-6 flex items-center justify-between border-b border-amber-700/30">
+  <div class="flex items-center gap-3">
+    <span class="text-4xl">🔮</span>
+    <div>
+      <h1 class="font-grimoire text-2xl sm:text-3xl text-mystique leading-none">Génie Maléfique</h1>
+      <p class="font-script text-base text-amber-200/70 -mt-1">le cahier des charges</p>
+    </div>
+  </div>
+  <div id="score-display" class="hidden items-center gap-3">
+    <div class="score-badge">
+      <span class="text-amber-200/70 text-sm">Étoiles&nbsp;:</span>
+      <span id="score-stars" class="text-amber-300 ml-1">⭐ 0</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
+
+  <section id="screen-welcome" class="fade-in-up">
+    <div class="text-center mb-10">
+      <div class="text-7xl mb-4 inline-block animate-pulse">👁️‍🗨️</div>
+      <h2 class="font-grimoire text-5xl sm:text-7xl text-mystique mb-4">Bienvenue, mortel...</h2>
+      <p class="text-xl text-amber-100/80 max-w-2xl mx-auto italic">
+        « Je suis le Génie du Cahier des Charges.<br>
+        Je peux te livrer <span class="text-glow-green text-green-300">N'IMPORTE QUEL OBJET</span>...<br>
+        à condition que tu rédiges des exigences <span class="text-glow-gold text-amber-300">PARFAITES</span>. »
+      </p>
+    </div>
+
+    <div class="grimoire-card max-w-3xl mx-auto p-6 sm:p-10 mb-6">
+      <h3 class="font-grimoire text-2xl text-amber-200 mb-4 text-center">📜 La Règle du Pacte</h3>
+      <div class="space-y-3 text-amber-50/90 text-lg">
+        <p>Tu vas commander un objet. Tu vas devoir <strong class="text-green-300">rédiger toi-même tes exigences</strong>, en langage clair et précis. Pas de liste pré-cochée : c'est ton cerveau qui doit tout prévoir.</p>
+        <p>🖋️ Tu as droit à <strong class="text-amber-300">8 exigences maximum</strong>. Tu devras donc être concis et malin : une phrase peut couvrir plusieurs aspects si elle est bien formulée.</p>
+        <p>👹 Si tu oublies un aspect essentiel, ou si tu es <strong class="text-red-300">trop vague</strong>, je livrerai la <strong class="text-red-300">pire interprétation possible</strong> de ta commande.</p>
+        <p>⚔️ <em>Exemple</em> : si tu écris « un vélo solide », je te livre un vélo en titane de 80 kg. <em>« Solide »</em>, tu n'avais qu'à préciser le matériau.</p>
+      </div>
+    </div>
+
+    <div class="grimoire-card max-w-3xl mx-auto p-6 mb-8">
+      <h3 class="font-grimoire text-xl text-amber-200 mb-3 text-center">🏆 Notation</h3>
+      <div class="grid sm:grid-cols-4 gap-4 text-center">
+        <div>
+          <div class="text-3xl mb-1">⭐⭐⭐</div>
+          <p class="text-amber-50/90 text-sm">Tous les aspects<br>couverts</p>
+        </div>
+        <div>
+          <div class="text-3xl mb-1">⭐⭐</div>
+          <p class="text-amber-50/90 text-sm">Aspects critiques OK,<br>1 détail oublié</p>
+        </div>
+        <div>
+          <div class="text-3xl mb-1">⭐</div>
+          <p class="text-amber-50/90 text-sm">Aspects critiques OK,<br>2 détails oubliés</p>
+        </div>
+        <div>
+          <div class="text-3xl mb-1">💀</div>
+          <p class="text-amber-50/90 text-sm">Objet<br>non fonctionnel</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button class="btn-invoke" onclick="goToScreen('select')">⚡ J'accepte le pacte ⚡</button>
+    </div>
+  </section>
+
+  <section id="screen-select" class="hidden">
+    <div class="text-center mb-10">
+      <h2 class="font-grimoire text-4xl sm:text-5xl text-mystique mb-3">Que désires-tu commander ?</h2>
+      <p class="text-amber-200/70 italic text-lg">Choisis l'objet à invoquer...</p>
+    </div>
+    <div id="object-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"></div>
+    <div class="text-center mt-8">
+      <button class="btn-mystique text-sm" onclick="goToScreen('welcome')">← Retour</button>
+    </div>
+  </section>
+
+  <section id="screen-spec" class="hidden">
+    <div class="text-center mb-6">
+      <div id="spec-emoji" class="text-6xl mb-3"></div>
+      <h2 class="font-grimoire text-3xl sm:text-4xl text-mystique mb-2">Cahier des charges</h2>
+      <h3 class="text-xl sm:text-2xl text-amber-200" id="spec-object-name"></h3>
+      <p class="text-amber-100/70 italic mt-2 max-w-2xl mx-auto" id="spec-context"></p>
+    </div>
+
+    <div class="parchemin p-5 sm:p-8 max-w-3xl mx-auto mb-6 relative">
+      <div class="text-center mb-5 relative z-10">
+        <h3 class="font-grimoire text-2xl sm:text-3xl text-amber-900">📋 Tes exigences</h3>
+        <p class="font-script text-lg text-amber-800/80 mt-1">— Rédige chaque exigence de façon précise —</p>
+        <p class="text-sm text-amber-900/60 italic mt-1">(Pas de panique avec l'orthographe — le Génie fait un effort 😈)</p>
+      </div>
+
+      <div id="requirements-list" class="mb-4 relative z-10"></div>
+
+      <div class="relative z-10 flex gap-2 mb-3">
+        <input type="text" id="req-input" class="req-input"
+               placeholder="Écris une exigence et appuie sur Entrée..."
+               maxlength="200">
+        <button id="btn-add" class="btn-add" onclick="addRequirement()">+ Ajouter</button>
+      </div>
+
+      <p id="req-counter" class="req-counter relative z-10 mb-4">0 / 8 exigences</p>
+
+      <div class="text-center mt-4 relative z-10">
+        <button id="btn-invoke" class="btn-invoke" onclick="evaluateSpec()" disabled>
+          🔮 Invoquer le Génie 🔮
+        </button>
+        <p class="text-amber-900/60 italic mt-3 text-sm">⚠️ Une fois le Génie invoqué, plus moyen de modifier tes exigences.</p>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button class="btn-mystique text-sm" onclick="goToScreen('select')">← Choisir un autre objet</button>
+    </div>
+  </section>
+
+  <section id="screen-result" class="hidden">
+    <div class="text-center mb-6 invoke-anim">
+      <div class="text-7xl mb-3" id="result-genie-emoji">👹</div>
+      <h2 class="font-grimoire text-4xl sm:text-5xl text-mystique mb-2" id="result-title"></h2>
+      <p class="text-xl text-amber-100/80 italic" id="result-tagline"></p>
+      <div class="stars-display" id="result-stars"></div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+      <div class="delivery-box p-6 sm:p-8 relative invoke-anim" style="animation-delay: 0.3s; opacity: 0;">
+        <div class="text-center mb-4">
+          <p class="font-grimoire text-xl text-amber-300">📦 Livraison du Génie</p>
+        </div>
+        <div class="text-center my-6">
+          <div class="text-8xl sm:text-9xl mb-4" id="result-emoji"></div>
+          <h3 class="font-grimoire text-2xl text-amber-100 mb-2" id="result-name"></h3>
+        </div>
+        <div class="bg-black/30 border border-amber-900/50 p-4 rounded">
+          <p class="text-amber-50/90 italic text-lg" id="result-description"></p>
+        </div>
+        <div id="result-stamp"></div>
+      </div>
+
+      <div class="grimoire-card p-6 sm:p-8 invoke-anim" style="animation-delay: 0.6s; opacity: 0;">
+        <h3 class="font-grimoire text-2xl text-amber-200 mb-4">📜 Analyse de ton cahier des charges</h3>
+        <div id="aspects-report"></div>
+        <div id="lesson-content" class="mt-4"></div>
+
+        <div class="mt-6 flex flex-wrap gap-3 justify-center">
+          <button class="btn-mystique" onclick="retryCurrent()">🔄 Réessayer</button>
+          <button class="btn-mystique" onclick="goToScreen('select')">📦 Autre objet</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="relative z-10 text-center py-8 text-amber-200/40 text-sm font-script">
+  ⚜ Pour les apprentis ingénieurs du Collège ⚜
+</footer>
+
+<script>
+/* =========================================================
+   NORMALISATION DU TEXTE
+   - minuscules
+   - suppression des accents
+   - apostrophes → espaces
+   - espaces multiples → un seul
+   ========================================================= */
+function normalize(s) {
+  return s.toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/['\u2019\u2018`]/g, ' ')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/* =========================================================
+   BASE DE DONNÉES DES OBJETS
+   Chaque objet a :
+   - des aspects CRITIQUES (oubli = catastrophe du Génie)
+   - des aspects SECONDAIRES (oubli = -1 étoile, warning)
+   Chaque aspect a :
+   - un label
+   - des keywords (mots-clés tolérés)
+   - pour les critiques : une failure (interprétation absurde)
+   - pour les secondaires : un warning
+   ========================================================= */
+
+const OBJECTS = {
+  velo: {
+    name: "Un vélo pour aller au collège",
+    shortName: "Vélo",
+    emoji: "🚲",
+    context: "Tu veux un vélo pour faire le trajet maison-collège tous les jours.",
+    placeholder: "Ex. Le vélo doit avoir 2 roues de même taille...",
+    maxRequirements: 8,
+    critical: [
+      {
+        id: "nombre_roues",
+        label: "Nombre de roues",
+        keywords: ["2 roues", "deux roues", "2 roue", "deux roue"],
+        failure: {
+          emoji: "🎪",
+          name: "Un MONOCYCLE de cirque",
+          description: "Tu n'as jamais précisé le NOMBRE de roues ! Le Génie t'a livré un monocycle. « C'est techniquement un véhicule à pédales », ricane-t-il. Bonne chance pour aller au collège en équilibre.",
+        },
+        hint: "Combien de roues doit avoir ton vélo ?"
+      },
+      {
+        id: "taille_roues",
+        label: "Taille des roues",
+        keywords: ["meme taille", "memes tailles", "meme dimension", "memes dimensions", "identique", "identiques", "egal", "egale", "egales", "egaux", "memes roues"],
+        failure: {
+          emoji: "🚲",
+          name: "Un GRAND-BI de 1880",
+          description: "Tu as bien demandé 2 roues... mais pas qu'elles fassent la MÊME taille ! Le Génie t'a livré un grand-bi : une roue énorme à l'avant, une minuscule derrière. Tu vas au collège perché à 1m80 du sol.",
+        },
+        hint: "Les deux roues sont-elles identiques ?"
+      },
+      {
+        id: "materiau_cadre",
+        label: "Matériau et solidité du cadre",
+        keywords: ["acier", "aluminium", "metal", "cadre solide", "cadre resistant", "cadre robuste", "cadre rigide", "cadre en dur", "cadre en acier", "cadre en aluminium", "cadre en metal", "cadre en fer", "cadre metallique"],
+        failure: {
+          emoji: "🍝",
+          name: "Un vélo en SPAGHETTIS CUITS",
+          description: "Tu n'as rien dit sur le matériau du cadre (ou tu es resté trop vague). Le Génie l'a fabriqué en pâtes trop cuites. Il s'effondre dès que tu poses le pied dessus.",
+        },
+        hint: "Précise le matériau du cadre (pas juste \"solide\")."
+      },
+      {
+        id: "freins",
+        label: "Système de freinage",
+        keywords: ["frein", "freins", "freiner", "freinage", "s arreter", "arreter", "stopper"],
+        failure: {
+          emoji: "💥",
+          name: "Un vélo SANS FREINS",
+          description: "Pas de précision sur le freinage ? Le Génie t'a livré un vélo sans freins. Tu ne peux pas t'arrêter. Tu fonces dans le mur du gymnase. « Tu voulais aller vite, non ? »",
+        },
+        hint: "Comment ton vélo s'arrête-t-il ?"
+      },
+      {
+        id: "selle",
+        label: "Assise / Selle",
+        keywords: ["selle", "siege", "asseoir", "assise", "assis"],
+        failure: {
+          emoji: "🪑",
+          name: "Un vélo SANS SELLE",
+          description: "Pas de selle demandée ? Pas de selle ! Tu pédales debout pendant 3 km. Tes mollets te détesteront jusqu'en 2030.",
+        },
+        hint: "Sur quoi t'assois-tu ?"
+      },
+      {
+        id: "pedales",
+        label: "Propulsion / Pédales",
+        keywords: ["pedal", "pedaler", "pedalier"],
+        failure: {
+          emoji: "🛴",
+          name: "Une draisienne pour adulte",
+          description: "Pas de pédales précisées ? Le Génie te livre un vélo sans propulsion. Tu dois pousser avec tes pieds, comme un enfant de 3 ans. Très drôle au collège.",
+        },
+        hint: "Comment avances-tu ?"
+      },
+      {
+        id: "guidon",
+        label: "Direction / Guidon",
+        keywords: ["guidon", "diriger", "tourner", "direction", "virer", "virage"],
+        failure: {
+          emoji: "❓",
+          name: "Un vélo SANS DIRECTION",
+          description: "Pas de guidon ni de direction précisé ? Le Génie t'a livré un vélo qui ne peut aller que tout droit. Le premier virage sera ta dernière aventure cycliste.",
+        },
+        hint: "Comment changes-tu de direction ?"
+      },
+      {
+        id: "taille_utilisateur",
+        label: "Taille adaptée à l'utilisateur",
+        keywords: ["collegien", "adolescent", "ado ", "ma taille", "adapt", "a ma taille", "a l eleve", "pour moi", "adulte", "1m", "12 ans", "13 ans", "14 ans", "15 ans", "eleve", "taille humaine", "mesure humaine", "enfant de"],
+        failure: {
+          emoji: "🚼",
+          name: "Un vélo pour bébé de 18 mois",
+          description: "Tu n'as pas précisé pour QUI le vélo est fait. Le Génie t'a livré un vélo Petit Poney avec roulettes, taille 8 pouces. Tes genoux te touchent les oreilles.",
+        },
+        hint: "Pour quelle personne (taille, âge) est ce vélo ?"
+      },
+    ],
+    secondary: [
+      {
+        id: "eclairage",
+        label: "Éclairage",
+        keywords: ["lumiere", "lumieres", "phare", "phares", "eclairage", "feu avant", "feu arriere", "feux", "ampoule"],
+        warning: "Tu n'as pas demandé d'éclairage. Pas de lumières → invisible la nuit et non conforme au code de la route.",
+      },
+      {
+        id: "visibilite",
+        label: "Visibilité passive (réflecteurs/sonnette)",
+        keywords: ["reflecteur", "reflecteurs", "catadioptre", "catadioptres", "reflechissant", "reflechissante", "reflechissants", "sonnette", "klaxon", "avertisseur"],
+        warning: "Aucun réflecteur ni sonnette. Tu ne peux ni être vu passivement, ni signaler ta présence.",
+      },
+    ],
+    success: {
+      emoji: "🚴",
+      name: "Un VÉLO PARFAIT",
+      description: "Bravo ! Ton cahier des charges est complet : le Génie n'a trouvé AUCUNE faille à exploiter. Il te livre un vrai vélo de collégien, fonctionnel, sécurisé et confortable. Il en grogne de frustration.",
+    },
+  },
+
+  sac: {
+    name: "Un sac à dos pour le collège",
+    shortName: "Sac à dos",
+    emoji: "🎒",
+    context: "Tu veux un sac pour transporter tes affaires de cours.",
+    placeholder: "Ex. Le sac doit se porter sur le dos avec 2 bretelles...",
+    maxRequirements: 8,
+    critical: [
+      {
+        id: "portage",
+        label: "Mode de portage (dos + bretelles)",
+        keywords: ["bretelle", "bretelles", "sur le dos", "porter sur le dos", "porter a dos", "dos avec", "deux bretelles", "2 bretelles"],
+        failure: {
+          emoji: "👜",
+          name: "Un sac à main de soirée",
+          description: "Tu as juste parlé d'un « sac », sans préciser comment le porter. Le Génie t'a livré une jolie pochette de soirée à tenir dans la main. Très classe pour aller en SVT.",
+        },
+        hint: "Comment porte-t-on le sac ?"
+      },
+      {
+        id: "fermeture",
+        label: "Fermeture",
+        keywords: ["fermeture", "fermer", "ferme", "zip", "eclair", "bouton", "scratch", "velcro", "clip", "aimant"],
+        failure: {
+          emoji: "🥡",
+          name: "Un sac OUVERT en permanence",
+          description: "Pas de fermeture ? Pas de fermeture ! Tout tombe à chaque pas. Tu retrouves tes feuilles dans toute la cour.",
+        },
+        hint: "Comment le sac se ferme-t-il ?"
+      },
+      {
+        id: "capacite",
+        label: "Capacité / Dimensions",
+        keywords: ["a4", "cahier", "cahiers", "format a4", "litre", "litres", "20 l", "15 l", "25 l", "capacite", "volume", "contenir", "grand sac", "grande taille"],
+        failure: {
+          emoji: "🥜",
+          name: "Une mini pochette de 5 cm",
+          description: "Pas de précision sur la taille ? Le Génie te livre une trousse minuscule de 5 cm. Tes cahiers ? Plie-les en 47, ça rentrera peut-être.",
+        },
+        hint: "Quelle taille minimum doit-il faire pour tes affaires ?"
+      },
+      {
+        id: "impermeable",
+        label: "Résistance à l'eau",
+        keywords: ["impermeable", "waterproof", "etanche", "resistant a l eau", "pluie", "repousse l eau", "deperlant"],
+        failure: {
+          emoji: "📄",
+          name: "Un sac en PAPIER JOURNAL",
+          description: "Tu n'as pas demandé un matériau imperméable. Le Génie t'a fabriqué un sac en papier journal. Première averse → tes cahiers en bouillie.",
+        },
+        hint: "Que se passe-t-il sous la pluie ?"
+      },
+      {
+        id: "solidite",
+        label: "Solidité du matériau",
+        keywords: ["solide", "resistant", "robuste", "durable", "costaud", "ne se dechire", "ne s use", "tissu solide", "polyester", "nylon", "toile epaisse", "coutures renforcees"],
+        failure: {
+          emoji: "🍂",
+          name: "Un sac en feuilles mortes",
+          description: "Pas demandé de solidité ? Le Génie a cousu ton sac avec des feuilles d'automne et du fil de coton. Première utilisation → il s'effrite en confettis.",
+        },
+        hint: "Le matériau doit résister à l'usure."
+      },
+      {
+        id: "confort_dos",
+        label: "Confort du dos",
+        keywords: ["rembourre", "rembourree", "rembourres", "rembourrees", "mousse", "confortable", "moelleux", "ergonomique", "dos mou", "dos souple", "dos confort"],
+        failure: {
+          emoji: "🪵",
+          name: "Un sac AVEC PLANCHES EN BOIS",
+          description: "Tu n'as rien dit sur le confort. Le Génie a mis des planches de bois rugueuses contre ton dos. Tu vas chez le kiné dès vendredi.",
+        },
+        hint: "Pense au contact avec ton dos."
+      },
+      {
+        id: "organisation",
+        label: "Compartiment / Organisation interne",
+        keywords: ["compartiment", "compartiments", "poche", "poches", "rangement", "grande poche", "partition"],
+        failure: {
+          emoji: "🎲",
+          name: "Un sac à 47 micro-compartiments",
+          description: "Sans précision, le Génie a fait un sac avec 47 mini-poches d'1 cm chacune. Tu ne peux rien y mettre de plus gros qu'un trombone.",
+        },
+        hint: "Comment est organisé l'intérieur ?"
+      },
+    ],
+    secondary: [
+      {
+        id: "bretelles_confort",
+        label: "Confort des bretelles",
+        keywords: ["bretelles rembourrees", "bretelle rembourree", "bretelles confortables", "bretelles molles", "bretelles mousse", "bretelles larges"],
+        warning: "Tu n'as pas précisé le confort des bretelles. Corde à linge en fil de fer → épaules en sang.",
+      },
+      {
+        id: "reglages",
+        label: "Bretelles réglables",
+        keywords: ["reglable", "reglables", "ajustable", "ajustables", "reglage", "adaptable"],
+        warning: "Bretelles non réglables → le sac pend jusqu'aux genoux ou te serre comme un corset.",
+      },
+    ],
+    success: {
+      emoji: "🎒",
+      name: "Un SAC PARFAIT",
+      description: "Excellent ! Tu as tout pensé : portage, taille, résistance, confort, organisation. Le Génie te livre un sac de collégien irréprochable. Il claque la porte du grimoire en partant.",
+    },
+  },
+
+  chaise: {
+    name: "Une chaise pour ton bureau",
+    shortName: "Chaise",
+    emoji: "🪑",
+    context: "Tu veux une chaise pour t'asseoir à ton bureau et faire tes devoirs.",
+    placeholder: "Ex. La chaise doit avoir 4 pieds de même longueur...",
+    maxRequirements: 8,
+    critical: [
+      {
+        id: "nombre_pieds",
+        label: "Nombre de pieds",
+        keywords: ["4 pieds", "quatre pieds", "4 pied"],
+        failure: {
+          emoji: "🦘",
+          name: "Une chaise à 1 PIED (pogo stick)",
+          description: "Pas précisé le nombre de pieds ? Le Génie t'a livré une chaise mono-pied façon pogo stick. Tu rebondis à chaque tentative d'écrire ton exposé.",
+        },
+        hint: "Combien de pieds pour être stable ?"
+      },
+      {
+        id: "pieds_stables",
+        label: "Pieds stables (égaux, au sol)",
+        keywords: ["meme longueur", "memes longueurs", "meme taille pieds", "pieds egaux", "pieds identiques", "pieds stables", "touchent le sol", "touche le sol", "equilibre", "equilibree", "stable", "ne bouge pas", "ne tangue pas"],
+        failure: {
+          emoji: "🌊",
+          name: "Une chaise BANCALE",
+          description: "Tes 4 pieds ne sont pas de la même longueur. La chaise tangue, grince, et menace de te faire tomber à chaque mouvement. Mal de mer garanti.",
+        },
+        hint: "Les pieds sont-ils égaux ?"
+      },
+      {
+        id: "assise_presente",
+        label: "Surface d'assise",
+        keywords: ["assise", "surface pour s asseoir", "s asseoir", "s assoir", "plateforme assise", "coussin assise", "siege", "planche assise"],
+        failure: {
+          emoji: "❌",
+          name: "Une chaise SANS ASSISE",
+          description: "Tu n'as pas demandé d'assise ! Tu reçois 4 pieds et un dossier reliés par du vide. Très moderne. Très inutilisable.",
+        },
+        hint: "Sur quoi poses-tu tes fesses ?"
+      },
+      {
+        id: "dossier",
+        label: "Dossier",
+        keywords: ["dossier", "appui dos", "appuie dos", "appuie-dos", "soutien dos", "dos appui", "support dos"],
+        failure: {
+          emoji: "🪑",
+          name: "Un simple TABOURET",
+          description: "Pas de dossier demandé = pas de dossier ! Tu as un tabouret. Tes lombaires hurlent au bout de 12 minutes de devoirs.",
+        },
+        hint: "Qu'est-ce qui soutient ton dos ?"
+      },
+      {
+        id: "materiau_resistant",
+        label: "Matériau résistant",
+        keywords: ["bois", "metal", "acier", "plastique", "plastique rigide", "aluminium", "materiau solide", "materiau resistant", "materiau rigide", "chaise en bois", "chaise en metal", "chaise en plastique"],
+        failure: {
+          emoji: "🍮",
+          name: "Une chaise en GÉLATINE",
+          description: "Pas demandé un matériau solide ? Le Génie t'a livré une chaise en gélatine de fraise. Tu t'assois → splash. Tu sens le bonbon mais tu es par terre.",
+        },
+        hint: "En quoi est-elle faite (pas juste \"solide\") ?"
+      },
+      {
+        id: "pour_humain",
+        label: "Adaptée à un humain / supporte le poids",
+        keywords: ["adulte", "collegien", "humain", "humaine", "personne", "eleve", "supporte", "supporter", "60 kg", "70 kg", "80 kg", "100 kg", "poids humain", "taille humaine", "mesure humaine"],
+        failure: {
+          emoji: "🐹",
+          name: "Une chaise pour HAMSTER",
+          description: "Pas précisé pour qui était la chaise ? Le Génie t'a livré un mini-fauteuil pour hamster. Magnifique objet de collection. Inutilisable pour faire tes devoirs.",
+        },
+        hint: "Pour qui ? Quel poids ?"
+      },
+    ],
+    secondary: [
+      {
+        id: "hauteur_bureau",
+        label: "Hauteur adaptée au bureau",
+        keywords: ["hauteur", "45 cm", "40 cm", "50 cm", "adaptee au bureau", "pour bureau", "hauteur bureau", "niveau bureau"],
+        warning: "Tu n'as pas précisé la hauteur. Chaise de 2 m → tu écris les genoux dans le menton.",
+      },
+      {
+        id: "taille_assise",
+        label: "Dimensions de l'assise",
+        keywords: ["40 cm", "30 cm", "assez large", "large assise", "grande assise", "40x40", "40 x 40"],
+        warning: "Assise minuscule non précisée → tu reçois un siège de 5 cm de large, tes fesses débordent.",
+      },
+    ],
+    success: {
+      emoji: "🪑",
+      name: "Une CHAISE PARFAITE",
+      description: "Bravo ! Stable, solide, ergonomique : ton cahier des charges est béton. Le Génie n'a aucun moyen de te jouer un mauvais tour. Il s'incline (avec rage).",
+    },
+  },
+
+  lampe: {
+    name: "Une lampe de bureau",
+    shortName: "Lampe",
+    emoji: "💡",
+    context: "Tu veux une lampe pour éclairer ton bureau quand tu travailles le soir.",
+    placeholder: "Ex. La lampe doit éclairer avec une ampoule LED...",
+    maxRequirements: 8,
+    critical: [
+      {
+        id: "eclaire",
+        label: "Source de lumière (ampoule qui éclaire)",
+        keywords: ["ampoule", "led", "eclaire", "eclairer", "eclairage", "lumiere", "lumineux", "brille", "emet de la lumiere", "projette de la lumiere"],
+        failure: {
+          emoji: "🕯️",
+          name: "Une lampe SANS LUMIÈRE",
+          description: "Pas demandé que ça éclaire ?! Le Génie t'a livré une superbe lampe... totalement éteinte. Élément de décoration uniquement. Très joli sur le bureau, parfaitement inutile pour lire.",
+        },
+        hint: "Une lampe doit... éclairer. Précise-le !"
+      },
+      {
+        id: "alimentation",
+        label: "Alimentation électrique",
+        keywords: ["electrique", "prise", "secteur", "230 v", "230v", "courant", "branche", "brancher", "cable electrique", "alimentation"],
+        failure: {
+          emoji: "🔥",
+          name: "Une lampe À PÉTROLE",
+          description: "Pas précisé le type d'alimentation ? Le Génie t'a livré une lampe à pétrole du XIXᵉ siècle. Risque d'incendie + odeur infecte + interdite dans la chambre.",
+        },
+        hint: "Comment est-elle alimentée ?"
+      },
+      {
+        id: "interrupteur",
+        label: "Contrôle ON/OFF",
+        keywords: ["interrupteur", "bouton", "allumer", "eteindre", "on off", "on/off", "marche arret", "marche/arret", "commutateur"],
+        failure: {
+          emoji: "🌞",
+          name: "Une lampe TOUJOURS ALLUMÉE",
+          description: "Pas d'interrupteur demandé ? Ta lampe brille 24h/24. Impossible de dormir. EDF te déteste.",
+        },
+        hint: "Comment l'allumer et l'éteindre ?"
+      },
+      {
+        id: "couleur_blanche",
+        label: "Couleur de la lumière",
+        keywords: ["blanche", "blanc", "chaud", "chaude", "naturelle", "jaune chaud", "warm", "2700 k", "3000 k", "4000 k", "lumiere du jour"],
+        failure: {
+          emoji: "💜",
+          name: "Une lampe à lumière VIOLET FLUO",
+          description: "Pas précisé la couleur ? Le Génie a choisi : ultraviolet flashy ! Tes yeux pleurent au bout de 30 secondes et tu vois des taches pendant 1 heure.",
+        },
+        hint: "Quelle couleur de lumière pour lire ?"
+      },
+      {
+        id: "stabilite",
+        label: "Stabilité / Socle",
+        keywords: ["socle", "stable", "base lourde", "base stable", "ne tombe pas", "ne se renverse", "ne renverse pas", "tient debout", "posee sur"],
+        failure: {
+          emoji: "🎈",
+          name: "Une lampe FLOTTANTE qui se renverse",
+          description: "Pas de socle stable ? Le Génie t'a livré une lampe avec une base ronde façon culbuto. Elle tombe au moindre souffle. Tes feuilles brûlent.",
+        },
+        hint: "Comment tient-elle sur le bureau ?"
+      },
+      {
+        id: "orientable",
+        label: "Tête orientable",
+        keywords: ["orientable", "articule", "articulee", "pliable", "pivotante", "flexible", "incliner", "inclinable", "bras mobile", "tete mobile", "regler l angle", "angle reglable"],
+        failure: {
+          emoji: "🔝",
+          name: "Une lampe qui éclaire LE PLAFOND",
+          description: "Pas demandé d'orientation ? Le Génie a fixé l'ampoule vers le haut. Ton plafond est superbement éclairé. Ton bureau est dans le noir total.",
+        },
+        hint: "Peux-tu diriger la lumière où tu veux ?"
+      },
+    ],
+    secondary: [
+      {
+        id: "cable",
+        label: "Longueur du câble",
+        keywords: ["cable", "fil", "1 5 m", "1,5 m", "1 5m", "2 m", "long cable", "cable long", "assez long"],
+        warning: "Câble non précisé → 5 cm de long. Ta lampe ne quitte jamais la prise murale.",
+      },
+      {
+        id: "economie",
+        label: "Basse consommation",
+        keywords: ["led", "basse consommation", "economie d energie", "econome", "peu de consommation", "faible puissance"],
+        warning: "Pas d'exigence sur la consommation → ampoule à incandescence 200 W. Facture EDF ruinée.",
+      },
+    ],
+    success: {
+      emoji: "💡",
+      name: "Une LAMPE PARFAITE",
+      description: "Magistral ! Tu as pensé à tout : éclairage, alimentation, contrôle, couleur, stabilité, orientation. Le Génie ne peut RIEN sortir de son sac à malices.",
+    },
+  },
+};
+
+/* =========================================================
+   ÉTAT
+   ========================================================= */
+const state = {
+  currentObject: null,
+  requirements: [],
+  totalStars: 0,
+};
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+function goToScreen(name) {
+  document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+  const target = document.getElementById('screen-' + name);
+  target.classList.remove('hidden');
+  target.classList.remove('fade-in-up');
+  void target.offsetWidth;
+  target.classList.add('fade-in-up');
+
+  if (name === 'select') renderObjectGrid();
+
+  const scoreEl = document.getElementById('score-display');
+  if (name === 'welcome') {
+    scoreEl.classList.add('hidden');
+    scoreEl.classList.remove('flex');
+  } else {
+    scoreEl.classList.remove('hidden');
+    scoreEl.classList.add('flex');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* =========================================================
+   SÉLECTION OBJETS
+   ========================================================= */
+function renderObjectGrid() {
+  const grid = document.getElementById('object-grid');
+  grid.innerHTML = '';
+  for (const [key, obj] of Object.entries(OBJECTS)) {
+    const div = document.createElement('div');
+    div.className = 'object-choice p-6 text-center rounded-lg';
+    div.onclick = () => selectObject(key);
+    div.innerHTML = `
+      <div class="obj-emoji">${obj.emoji}</div>
+      <h3 class="font-grimoire text-xl text-amber-200 mt-3">${obj.shortName}</h3>
+      <p class="text-amber-100/60 text-sm italic mt-1">${obj.context.slice(0, 60)}...</p>
+      <p class="text-sm mt-2 font-script text-amber-300">${obj.critical.length + obj.secondary.length} aspects cachés</p>
+    `;
+    grid.appendChild(div);
+  }
+}
+
+/* =========================================================
+   SÉLECTION + ÉCRAN SPEC
+   ========================================================= */
+function selectObject(key) {
+  state.currentObject = key;
+  state.requirements = [];
+  const obj = OBJECTS[key];
+
+  document.getElementById('spec-emoji').textContent = obj.emoji;
+  document.getElementById('spec-object-name').textContent = obj.name;
+  document.getElementById('spec-context').textContent = obj.context;
+  document.getElementById('req-input').placeholder = obj.placeholder;
+  document.getElementById('req-input').value = '';
+
+  renderRequirementsList();
+  updateReqCounter();
+  goToScreen('spec');
+
+  setTimeout(() => document.getElementById('req-input').focus(), 300);
+}
+
+function addRequirement() {
+  const input = document.getElementById('req-input');
+  const txt = input.value.trim();
+  if (!txt) return;
+  const obj = OBJECTS[state.currentObject];
+  if (state.requirements.length >= obj.maxRequirements) return;
+  if (txt.length < 3) return;
+
+  state.requirements.push(txt);
+  input.value = '';
+  input.focus();
+  renderRequirementsList();
+  updateReqCounter();
+}
+
+function removeRequirement(idx) {
+  state.requirements.splice(idx, 1);
+  renderRequirementsList();
+  updateReqCounter();
+}
+
+function renderRequirementsList() {
+  const list = document.getElementById('requirements-list');
+  list.innerHTML = '';
+  state.requirements.forEach((req, idx) => {
+    const row = document.createElement('div');
+    row.className = 'req-row';
+    row.innerHTML = `
+      <span class="req-num">${idx + 1}.</span>
+      <span class="req-text"></span>
+      <button class="req-remove" onclick="removeRequirement(${idx})" title="Supprimer">✕</button>
+    `;
+    row.querySelector('.req-text').textContent = req;
+    list.appendChild(row);
+  });
+}
+
+function updateReqCounter() {
+  const obj = OBJECTS[state.currentObject];
+  const n = state.requirements.length;
+  const max = obj.maxRequirements;
+  const counter = document.getElementById('req-counter');
+  counter.textContent = `${n} / ${max} exigences`;
+  counter.classList.toggle('full', n >= max);
+
+  document.getElementById('btn-add').disabled = (n >= max);
+  document.getElementById('btn-invoke').disabled = (n < 1);
+  document.getElementById('req-input').disabled = (n >= max);
+}
+
+// Entrée → ajouter
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('req-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addRequirement();
+    }
+  });
+});
+
+/* =========================================================
+   ÉVALUATION — moteur fuzzy (tolérant aux fautes)
+   =========================================================
+   Stratégie :
+   - Texte normalisé en amont (accents, ponctuation)
+   - Découpage en mots
+   - Chaque mot comparé aux mots-clés avec :
+     * match exact
+     * préfixe commun (pluriels, conjugaisons)
+     * distance de Levenshtein tolérant 0 à 2 fautes selon la longueur
+   - Keywords multi-mots : on cherche la séquence en autorisant
+     chaque mot à matcher de manière floue
+   ========================================================= */
+
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  // Matrice DP
+  const dp = [];
+  for (let i = 0; i <= a.length; i++) { dp[i] = [i]; }
+  for (let j = 0; j <= b.length; j++) { dp[0][j] = j; }
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      if (a.charCodeAt(i - 1) === b.charCodeAt(j - 1)) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = 1 + Math.min(
+          dp[i - 1][j],       // suppression
+          dp[i][j - 1],       // insertion
+          dp[i - 1][j - 1]    // substitution
+        );
+      }
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function wordTolerance(len) {
+  if (len <= 3) return 0;
+  if (len <= 5) return 1;
+  return 2;
+}
+
+function fuzzyWordMatch(textWord, kwWord) {
+  if (!textWord || !kwWord) return false;
+  if (textWord === kwWord) return true;
+  // kwWord est préfixe de textWord (pluriels, conjugaisons : "pedal" ≈ "pédalier")
+  if (kwWord.length >= 4 && textWord.startsWith(kwWord)) return true;
+  // textWord est préfixe de kwWord (troncatures : "rou" ≈ "roues")
+  if (textWord.length >= 3 && kwWord.startsWith(textWord)) return true;
+  // Distance de Levenshtein tolérant des fautes
+  const tol = wordTolerance(Math.max(textWord.length, kwWord.length));
+  if (tol > 0 && levenshtein(textWord, kwWord) <= tol) return true;
+  return false;
+}
+
+function keywordMatches(normalizedText, keyword) {
+  const kwNorm = normalize(keyword);
+  const textWords = normalizedText.split(/\s+/).filter(w => w.length > 0);
+  const kwWords = kwNorm.split(/\s+/).filter(w => w.length > 0);
+  if (kwWords.length === 0 || textWords.length < kwWords.length) return false;
+
+  // Recherche de séquence : chaque mot du kw doit matcher un mot
+  // consécutif du texte, dans l'ordre, avec fuzzy match
+  for (let i = 0; i <= textWords.length - kwWords.length; i++) {
+    let allMatch = true;
+    for (let j = 0; j < kwWords.length; j++) {
+      if (!fuzzyWordMatch(textWords[i + j], kwWords[j])) {
+        allMatch = false;
+        break;
+      }
+    }
+    if (allMatch) return true;
+  }
+  return false;
+}
+
+function findCoveringRequirement(aspect, requirements) {
+  for (let i = 0; i < requirements.length; i++) {
+    const norm = normalize(requirements[i]);
+    for (const kw of aspect.keywords) {
+      if (keywordMatches(norm, kw)) return i;
+    }
+  }
+  return -1;
+}
+
+function evaluateSpec() {
+  const obj = OBJECTS[state.currentObject];
+  const reqs = state.requirements;
+
+  const criticalReport = obj.critical.map(aspect => ({
+    aspect,
+    coveredBy: findCoveringRequirement(aspect, reqs),
+  }));
+
+  const secondaryReport = obj.secondary.map(aspect => ({
+    aspect,
+    coveredBy: findCoveringRequirement(aspect, reqs),
+  }));
+
+  const missedCritical = criticalReport.filter(r => r.coveredBy === -1);
+  const missedSecondary = secondaryReport.filter(r => r.coveredBy === -1);
+
+  let stars, success, failure;
+  if (missedCritical.length > 0) {
+    // ÉCHEC : le Génie prend le PREMIER aspect critique manqué (priorité = ordre)
+    success = false;
+    stars = 0;
+    failure = missedCritical[0].aspect.failure;
+  } else {
+    success = true;
+    // 3 étoiles = tout couvert, -1 par secondaire oublié, min 1 étoile si succès
+    stars = Math.max(1, 3 - missedSecondary.length);
+  }
+
+  state.totalStars += stars;
+  document.getElementById('score-stars').textContent = `⭐ ${state.totalStars}`;
+
+  showResult(success, failure, stars, criticalReport, secondaryReport);
+}
+
+/* =========================================================
+   ÉCRAN RÉSULTAT
+   ========================================================= */
+function showResult(success, failure, stars, criticalReport, secondaryReport) {
+  const obj = OBJECTS[state.currentObject];
+
+  document.getElementById('result-genie-emoji').textContent = success ? "👼" : "👹";
+  document.getElementById('result-title').textContent = success ? "Le Génie est vaincu !" : "Le Génie ricane...";
+  document.getElementById('result-tagline').textContent = success
+    ? (stars === 3 ? "« Tu as tout prévu, mortel... cette fois. »"
+       : stars === 2 ? "« L'objet fonctionne mais tu as oublié un détail ! »"
+       : "« L'objet marche à peine, mortel... »")
+    : "« HA HA HA ! Tu as oublié l'essentiel ! »";
+
+  const displayResult = success ? obj.success : failure;
+  document.getElementById('result-emoji').textContent = displayResult.emoji;
+  document.getElementById('result-name').textContent = displayResult.name;
+  document.getElementById('result-description').textContent = displayResult.description;
+
+  // Étoiles
+  const starsEl = document.getElementById('result-stars');
+  starsEl.innerHTML = '';
+  for (let i = 0; i < 3; i++) {
+    const s = document.createElement('span');
+    s.className = 'star';
+    s.textContent = '★';
+    starsEl.appendChild(s);
+  }
+  setTimeout(() => {
+    const starEls = starsEl.querySelectorAll('.star');
+    for (let i = 0; i < stars; i++) {
+      setTimeout(() => starEls[i].classList.add('filled'), i * 200);
+    }
+  }, 400);
+
+  // Tampon
+  document.getElementById('result-stamp').innerHTML = success
+    ? `<div class="tampon tampon-success">✓ Conforme</div>`
+    : `<div class="tampon tampon-fail">Catastrophe</div>`;
+
+  // Rapport d'aspects
+  const reportEl = document.getElementById('aspects-report');
+  reportEl.innerHTML = '';
+
+  // On n'affiche QUE les aspects couverts.
+  // L'élève doit DEVINER ses oublis à partir de la catastrophe du Génie.
+  const coveredReports = [...criticalReport, ...secondaryReport]
+                           .filter(r => r.coveredBy !== -1);
+  const coveredCount = coveredReports.length;
+
+  const header = document.createElement('p');
+  header.className = 'text-amber-100/80 mb-3 italic';
+  header.textContent = coveredCount === 0
+    ? `Aucun aspect précisément identifié dans ton cahier des charges...`
+    : `${coveredCount} aspect${coveredCount > 1 ? 's' : ''} bien couvert${coveredCount > 1 ? 's' : ''} :`;
+  reportEl.appendChild(header);
+
+  if (coveredCount === 0) {
+    const emptyCard = document.createElement('div');
+    emptyCard.className = 'aspect-card missed';
+    emptyCard.innerHTML = `
+      <span class="aspect-icon">💭</span>
+      <div class="aspect-content">
+        <div class="aspect-label">Exigences trop vagues</div>
+        <div class="aspect-hint">Sois plus précis ! Des mots comme « solide » ou « pratique » n'aident pas le Génie à comprendre ce que tu veux vraiment.</div>
+      </div>
+    `;
+    reportEl.appendChild(emptyCard);
+  } else {
+    coveredReports.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'aspect-card covered';
+      card.innerHTML = `
+        <span class="aspect-icon">✅</span>
+        <div class="aspect-content">
+          <div class="aspect-label">${r.aspect.label}</div>
+          <div class="aspect-quote">↳ « ${escapeHtml(state.requirements[r.coveredBy])} »</div>
+        </div>
+      `;
+      reportEl.appendChild(card);
+    });
+  }
+
+  // Leçon
+  const lessonEl = document.getElementById('lesson-content');
+  lessonEl.innerHTML = '';
+  const missedCritical = criticalReport.filter(r => r.coveredBy === -1);
+  const missedSecondary = secondaryReport.filter(r => r.coveredBy === -1);
+
+  if (success && stars === 3) {
+    lessonEl.innerHTML = `
+      <div style="background: linear-gradient(135deg, rgba(124, 255, 178, 0.1) 0%, rgba(212, 165, 116, 0.05) 100%); border-left: 4px solid #7cffb2; padding: 1rem;">
+        <p class="text-green-300 font-semibold mb-1">🏆 Sans-faute !</p>
+        <p class="text-amber-50/90 text-sm">Tu as couvert TOUS les aspects, critiques et secondaires. Ton cahier des charges est digne d'un vrai ingénieur.</p>
+      </div>
+    `;
+  } else if (success) {
+    lessonEl.innerHTML = `
+      <div style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(212, 165, 116, 0.05) 100%); border-left: 4px solid #f59e0b; padding: 1rem;">
+        <p class="text-amber-300 font-semibold mb-1">⚠️ Presque parfait</p>
+        <p class="text-amber-50/90 text-sm">Ton objet fonctionne, mais tu as oublié des aspects secondaires. Les meilleurs cahiers des charges pensent aussi aux "détails" — c'est souvent eux qui font la différence.</p>
+      </div>
+    `;
+  } else {
+    lessonEl.innerHTML = `
+      <div style="background: linear-gradient(135deg, rgba(193, 18, 31, 0.15) 0%, rgba(120, 0, 0, 0.08) 100%); border-left: 4px solid #c1121f; padding: 1rem;">
+        <p class="text-red-300 font-semibold mb-1">💀 Aspect critique manqué</p>
+        <p class="text-amber-50/90 text-sm">Un bon cahier des charges doit être <strong>complet</strong> et <strong>précis</strong>. Chaque aspect essentiel de l'objet doit être décrit clairement. « Solide » ou « pratique » ne suffisent jamais : il faut décrire <em>concrètement</em> ce qui est attendu.</p>
+      </div>
+    `;
+  }
+
+  goToScreen('result');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function retryCurrent() {
+  selectObject(state.currentObject);
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+goToScreen('welcome');
+</script>
+</body>
+</html>
