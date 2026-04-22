@@ -577,11 +577,562 @@
     opacity: 0.6;
   }
 
+  /* =========================================================
+     INTRO (slides pédagogiques)
+     ========================================================= */
+  .intro-container {
+    max-width: 56rem;
+    margin: 0 auto;
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .intro-progress {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-dot {
+    width: 2.5rem;
+    height: 4px;
+    background: rgba(212, 165, 116, 0.2);
+    border-radius: 2px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+  }
+
+  .intro-dot.active {
+    background: var(--or-clair);
+    box-shadow: 0 0 12px rgba(212, 165, 116, 0.6);
+    width: 3.5rem;
+  }
+
+  .intro-dot.visited {
+    background: rgba(212, 165, 116, 0.5);
+  }
+
+  .intro-skip {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    color: rgba(253, 230, 138, 0.5);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .intro-skip:hover {
+    color: var(--or-clair);
+  }
+
+  .intro-slides-container {
+    flex: 1;
+    position: relative;
+    min-height: 420px;
+  }
+
+  .intro-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .intro-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .intro-slide.past {
+    transform: translateX(-40px);
+  }
+
+  .intro-slide-visual {
+    margin-bottom: 1.5rem;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .intro-slide-title {
+    font-family: 'Pirata One', cursive;
+    font-size: 2rem;
+    color: var(--or-clair);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.03em;
+    text-shadow: 0 0 20px rgba(212, 165, 116, 0.4);
+  }
+
+  @media (min-width: 640px) {
+    .intro-slide-title { font-size: 2.5rem; }
+  }
+
+  .intro-slide-text {
+    font-size: 1.15rem;
+    color: rgba(254, 243, 199, 0.9);
+    max-width: 42rem;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 640px) {
+    .intro-slide-text { font-size: 1.25rem; }
+  }
+
+  .intro-slide-text strong {
+    color: var(--vert-poison);
+  }
+
+  .intro-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+
+  .intro-nav .btn-mystique {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .intro-nav .btn-mystique:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* Bulle de pensée slide 1 */
+  .thought-bubble-body {
+    width: 220px;
+    height: 220px;
+    background: rgba(253, 230, 138, 0.1);
+    border: 3px solid var(--or-mystique);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(212, 165, 116, 0.2);
+  }
+
+  .thought-bubble-body::before {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 30px;
+    width: 18px;
+    height: 18px;
+    background: rgba(253, 230, 138, 0.1);
+    border: 2px solid var(--or-mystique);
+    border-radius: 50%;
+  }
+
+  .thought-bubble-body::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    background: rgba(253, 230, 138, 0.1);
+    border: 2px solid var(--or-mystique);
+    border-radius: 50%;
+  }
+
+  .thought-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    font-size: 5rem;
+    opacity: 0;
+    animation: thought-fade 12s infinite;
+  }
+
+  .thought-item:nth-child(1) { animation-delay: 0s; }
+  .thought-item:nth-child(2) { animation-delay: 3s; }
+  .thought-item:nth-child(3) { animation-delay: 6s; }
+  .thought-item:nth-child(4) { animation-delay: 9s; }
+
+  @keyframes thought-fade {
+    0%, 2% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    10%, 20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    28%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  }
+
+  /* Personnage client slide 1 */
+  .character-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .character-emoji {
+    font-size: 5rem;
+  }
+
+  /* Schéma client/fournisseur slide 4 */
+  .circuit-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (min-width: 640px) {
+    .circuit-diagram {
+      flex-direction: row;
+      gap: 0.8rem;
+    }
+  }
+
+  .circuit-actor {
+    background: linear-gradient(145deg, rgba(45, 27, 78, 0.8) 0%, rgba(26, 13, 46, 0.9) 100%);
+    border: 2px solid var(--or-mystique);
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    min-width: 160px;
+    animation: actor-pop 0.5s ease-out backwards;
+  }
+
+  .circuit-actor-emoji {
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .circuit-actor-role {
+    font-family: 'Pirata One', cursive;
+    color: var(--or-clair);
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+  }
+
+  .circuit-actor-detail {
+    color: rgba(254, 243, 199, 0.65);
+    font-size: 0.78rem;
+    font-style: italic;
+    margin-top: 0.3rem;
+  }
+
+  .circuit-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    animation: arrow-float 2.5s ease-in-out infinite;
+  }
+
+  .circuit-arrow-doc {
+    font-size: 2.2rem;
+    filter: drop-shadow(0 0 10px rgba(124, 255, 178, 0.5));
+  }
+
+  .circuit-arrow-line {
+    color: var(--vert-poison);
+    font-size: 1.3rem;
+    letter-spacing: -2px;
+  }
+
+  @keyframes arrow-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes actor-pop {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .intro-slide.active .circuit-actor:nth-child(1) { animation-delay: 0.2s; }
+  .intro-slide.active .circuit-actor:nth-child(3) { animation-delay: 0.8s; }
+
+  /* Parchemin animé slide 3 */
+  .scroll-parchment {
+    background: linear-gradient(135deg, rgba(232, 216, 183, 0.95) 0%, rgba(201, 180, 143, 0.9) 100%);
+    color: var(--encre);
+    padding: 1.5rem 2rem;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    max-width: 340px;
+    font-family: 'Kalam', cursive;
+    position: relative;
+    transform-origin: top center;
+    animation: scroll-unroll 0.8s ease-out;
+  }
+
+  .scroll-parchment::before,
+  .scroll-parchment::after {
+    content: '';
+    position: absolute;
+    left: -12px;
+    right: -12px;
+    height: 18px;
+    background: linear-gradient(180deg, #a0672f, #6b4520);
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  .scroll-parchment::before { top: -12px; }
+  .scroll-parchment::after { bottom: -12px; }
+
+  @keyframes scroll-unroll {
+    0% { transform: scaleY(0); opacity: 0; }
+    100% { transform: scaleY(1); opacity: 1; }
+  }
+
+  .scroll-parchment p {
+    margin: 0.5rem 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+
+  .scroll-parchment .scroll-title {
+    font-family: 'Pirata One', cursive;
+    font-size: 1.3rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(139, 90, 43, 0.3);
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Liste de contenu slide 5 */
+  .content-list {
+    display: grid;
+    gap: 0.7rem;
+    max-width: 30rem;
+    margin: 0 auto;
+  }
+
+  .content-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.8rem 1rem;
+    background: linear-gradient(145deg, rgba(45, 27, 78, 0.6) 0%, rgba(26, 13, 46, 0.8) 100%);
+    border-left: 3px solid var(--vert-poison);
+    text-align: left;
+    animation: item-slide-in 0.5s ease-out backwards;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .intro-slide.active .content-item:nth-child(1) { animation-delay: 0.2s; }
+  .intro-slide.active .content-item:nth-child(2) { animation-delay: 0.5s; }
+  .intro-slide.active .content-item:nth-child(3) { animation-delay: 0.8s; }
+  .intro-slide.active .content-item:nth-child(4) { animation-delay: 1.1s; }
+
+  @keyframes item-slide-in {
+    0% { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  .content-item-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+
+  .content-item-label {
+    font-family: 'Pirata One', cursive;
+    color: var(--or-clair);
+    letter-spacing: 0.05em;
+    font-size: 1.05rem;
+  }
+
+  .content-item-desc {
+    color: rgba(254, 243, 199, 0.75);
+    font-size: 0.9rem;
+    margin-top: 0.15rem;
+  }
+
+  /* Slide 2 : demande vague → résultat catastrophique */
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    max-width: 42rem;
+    animation: item-slide-in 0.5s ease-out backwards;
+  }
+
+  .intro-slide.active .compare-row:nth-child(1) { animation-delay: 0.1s; }
+  .intro-slide.active .compare-row:nth-child(2) { animation-delay: 0.6s; }
+
+  .compare-box {
+    background: linear-gradient(145deg, rgba(45, 27, 78, 0.6) 0%, rgba(26, 13, 46, 0.8) 100%);
+    border: 1px solid var(--or-mystique);
+    padding: 0.7rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: 'Kalam', cursive;
+    color: rgba(254, 243, 199, 0.9);
+  }
+
+  .compare-box.bad {
+    border-color: var(--rouge-sang);
+    background: linear-gradient(145deg, rgba(120, 0, 0, 0.3) 0%, rgba(45, 10, 20, 0.7) 100%);
+  }
+
+  .compare-label {
+    font-family: 'Pirata One', cursive;
+    color: var(--or-clair);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+  }
+
+  .compare-box.bad .compare-label {
+    color: #fca5a5;
+  }
+
+  .compare-arrow {
+    font-size: 1.5rem;
+    color: var(--or-mystique);
+  }
+
   ::-webkit-scrollbar { width: 12px; }
   ::-webkit-scrollbar-track { background: var(--noir-encre); }
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, var(--violet-profond), var(--or-mystique));
     border-radius: 6px;
+  }
+
+  /* =========================================================
+     BANDEAU INSTITUTIONNEL
+     ========================================================= */
+  .institutional-banner {
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(90deg, rgba(10, 6, 18, 0.95) 0%, rgba(26, 13, 46, 0.8) 50%, rgba(10, 6, 18, 0.95) 100%);
+    border-bottom: 1px solid rgba(212, 165, 116, 0.25);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 640px) {
+    .institutional-banner { padding: 0.6rem 2rem; }
+  }
+
+  .institutional-left {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .school-logo {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 0 8px rgba(212, 165, 116, 0.3));
+  }
+
+  .school-logo svg,
+  .school-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .institutional-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .institutional-matter {
+    font-family: 'Pirata One', cursive;
+    color: var(--or-clair);
+    letter-spacing: 0.08em;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+  }
+
+  .institutional-school {
+    color: rgba(254, 243, 199, 0.6);
+    font-style: italic;
+    font-size: 0.78rem;
+  }
+
+  .institutional-right {
+    text-align: right;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1.2;
+  }
+
+  .institutional-author {
+    color: var(--or-clair);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 0.9rem;
+  }
+
+  .institutional-rights {
+    color: rgba(254, 243, 199, 0.5);
+    font-style: italic;
+    font-size: 0.75rem;
+  }
+
+  /* Footer enrichi */
+  .game-footer {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-top: 1px solid rgba(212, 165, 116, 0.2);
+    margin-top: 2rem;
+  }
+
+  .footer-tagline {
+    font-family: 'Caveat', cursive;
+    color: rgba(253, 230, 138, 0.4);
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .footer-copyright {
+    color: rgba(254, 243, 199, 0.45);
+    font-size: 0.8rem;
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.02em;
+  }
+
+  .footer-copyright strong {
+    color: var(--or-clair);
+    letter-spacing: 0.08em;
   }
 </style>
 </head>
@@ -590,6 +1141,23 @@
 <div class="mystic-bg"></div>
 <div class="smoke"></div>
 <div class="smoke" style="animation-delay: -7s; left: 30%;"></div>
+
+<!-- BANDEAU INSTITUTIONNEL -->
+<div class="institutional-banner">
+  <div class="institutional-left">
+    <div class="school-logo">
+      <img src="data:image/webp;base64,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" alt="Collège ESTIC Don Bosco">
+    </div>
+    <div class="institutional-text">
+      <div class="institutional-matter">Technologie — Cycle 4</div>
+      <div class="institutional-school">Collège ESTIC Don Bosco · Saint-Dizier</div>
+    </div>
+  </div>
+  <div class="institutional-right">
+    <div class="institutional-author">M. AGOSTINI</div>
+    <div class="institutional-rights">© 2026 — Tous droits réservés</div>
+  </div>
+</div>
 
 <header class="relative z-10 px-4 sm:px-8 py-6 flex items-center justify-between border-b border-amber-700/30">
   <div class="flex items-center gap-3">
@@ -609,6 +1177,168 @@
 
 <main id="main" class="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
 
+  <!-- ÉCRAN INTRO PÉDAGOGIQUE -->
+  <section id="screen-intro" class="hidden">
+    <div class="intro-container">
+      <button class="intro-skip" onclick="skipIntro()">Passer l'intro →</button>
+
+      <div class="intro-progress">
+        <div class="intro-dot active" onclick="goToIntroSlide(0)"></div>
+        <div class="intro-dot" onclick="goToIntroSlide(1)"></div>
+        <div class="intro-dot" onclick="goToIntroSlide(2)"></div>
+        <div class="intro-dot" onclick="goToIntroSlide(3)"></div>
+        <div class="intro-dot" onclick="goToIntroSlide(4)"></div>
+      </div>
+
+      <div class="intro-slides-container">
+
+        <!-- SLIDE 1 : Le besoin -->
+        <div class="intro-slide active" data-slide="0">
+          <div class="intro-slide-visual">
+            <div class="character-row">
+              <div class="character-emoji">🧑</div>
+              <div class="thought-bubble-body">
+                <span class="thought-item">🚲</span>
+                <span class="thought-item">🏠</span>
+                <span class="thought-item">💻</span>
+                <span class="thought-item">🚀</span>
+              </div>
+            </div>
+          </div>
+          <h2 class="intro-slide-title">Tout commence par un <strong>BESOIN</strong></h2>
+          <p class="intro-slide-text">
+            Une personne, une entreprise ou même une ville a besoin de <strong>quelque chose</strong> : un vélo, une maison, un site web, une fusée...<br>
+            Mais comment faire pour obtenir exactement ce qu'on veut ?
+          </p>
+        </div>
+
+        <!-- SLIDE 2 : Le problème -->
+        <div class="intro-slide" data-slide="1">
+          <div class="intro-slide-visual" style="flex-direction: column; gap: 0.5rem;">
+            <div class="compare-row">
+              <div class="compare-box">
+                <span class="compare-label">🗣️ Ce qu'on demande</span>
+                « Je veux un truc pour aller au travail »
+              </div>
+              <span class="compare-arrow">→</span>
+              <div class="compare-box bad">
+                <span class="compare-label">📦 Ce qu'on reçoit</span>
+                🦒 Un lama dressé ?
+              </div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-box">
+                <span class="compare-label">🗣️ Ce qu'on demande</span>
+                « Un objet solide pour s'asseoir »
+              </div>
+              <span class="compare-arrow">→</span>
+              <div class="compare-box bad">
+                <span class="compare-label">📦 Ce qu'on reçoit</span>
+                🪨 Un rocher de 200 kg ?
+              </div>
+            </div>
+          </div>
+          <h2 class="intro-slide-title">Le problème des demandes <strong>FLOUES</strong></h2>
+          <p class="intro-slide-text">
+            Quand on n'est pas précis, chacun imagine autre chose. Le fournisseur peut livrer n'importe quoi de techniquement conforme — et c'est la catastrophe !
+          </p>
+        </div>
+
+        <!-- SLIDE 3 : La solution -->
+        <div class="intro-slide" data-slide="2">
+          <div class="intro-slide-visual">
+            <div class="scroll-parchment">
+              <p class="scroll-title">📋 Cahier des charges</p>
+              <p>• Besoin : aller au collège</p>
+              <p>• Vélo avec 2 roues identiques</p>
+              <p>• Cadre en aluminium</p>
+              <p>• Freins fonctionnels</p>
+              <p>• Taille ado (1m50-1m70)</p>
+              <p style="text-align:right; font-style:italic; margin-top:0.8rem;">— Signé le client</p>
+            </div>
+          </div>
+          <h2 class="intro-slide-title">La solution : le <strong>CAHIER DES CHARGES</strong></h2>
+          <p class="intro-slide-text">
+            C'est un <strong>document</strong> qui décrit de façon claire et précise <em>tout ce qu'on attend</em> d'un produit ou d'un service. Plus rien n'est laissé au hasard !
+          </p>
+        </div>
+
+        <!-- SLIDE 4 : Qui ? À qui ? -->
+        <div class="intro-slide" data-slide="3">
+          <div class="intro-slide-visual">
+            <div class="circuit-diagram">
+              <div class="circuit-actor">
+                <span class="circuit-actor-emoji">🧑‍💼</span>
+                <div class="circuit-actor-role">LE CLIENT</div>
+                <div class="circuit-actor-detail">(maître d'ouvrage)<br>Celui qui a besoin</div>
+              </div>
+              <div class="circuit-arrow">
+                <div class="circuit-arrow-doc">📜</div>
+                <div class="circuit-arrow-line">━━▶</div>
+              </div>
+              <div class="circuit-actor">
+                <span class="circuit-actor-emoji">👷</span>
+                <div class="circuit-actor-role">LE FOURNISSEUR</div>
+                <div class="circuit-actor-detail">(maître d'œuvre)<br>Celui qui réalise</div>
+              </div>
+            </div>
+          </div>
+          <h2 class="intro-slide-title">Qui l'écrit ? <strong>À qui</strong> ?</h2>
+          <p class="intro-slide-text">
+            Le <strong>client</strong> (celui qui commande) rédige le cahier des charges et l'envoie au <strong>fournisseur</strong> (fabricant, ingénieur, artisan, prestataire...). Ce document devient leur <em>contrat de confiance</em>.
+          </p>
+        </div>
+
+        <!-- SLIDE 5 : Le contenu -->
+        <div class="intro-slide" data-slide="4">
+          <div class="intro-slide-visual">
+            <div class="content-list">
+              <div class="content-item">
+                <span class="content-item-icon">🎯</span>
+                <div>
+                  <div class="content-item-label">LE BESOIN</div>
+                  <div class="content-item-desc">À quoi doit servir l'objet ?</div>
+                </div>
+              </div>
+              <div class="content-item">
+                <span class="content-item-icon">⚙️</span>
+                <div>
+                  <div class="content-item-label">LES FONCTIONS</div>
+                  <div class="content-item-desc">Que doit-il faire concrètement ?</div>
+                </div>
+              </div>
+              <div class="content-item">
+                <span class="content-item-icon">🔒</span>
+                <div>
+                  <div class="content-item-label">LES CONTRAINTES</div>
+                  <div class="content-item-desc">Budget, délai, matériau, normes, sécurité...</div>
+                </div>
+              </div>
+              <div class="content-item">
+                <span class="content-item-icon">📏</span>
+                <div>
+                  <div class="content-item-label">LES PERFORMANCES</div>
+                  <div class="content-item-desc">Vitesse, poids, durée de vie, précision...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h2 class="intro-slide-title">Que <strong>CONTIENT</strong>-il ?</h2>
+          <p class="intro-slide-text">
+            Un bon cahier des charges décrit le <em>besoin</em>, les <em>fonctions</em>, les <em>contraintes</em> et les <em>performances</em>. Tout doit être écrit — rien laissé à l'imagination !
+          </p>
+        </div>
+
+      </div>
+
+      <div class="intro-nav">
+        <button id="intro-prev" class="btn-mystique" onclick="prevIntroSlide()" disabled>← Précédent</button>
+        <button id="intro-next" class="btn-mystique" onclick="nextIntroSlide()">Suivant →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉCRAN D'ACCUEIL -->
   <section id="screen-welcome" class="fade-in-up">
     <div class="text-center mb-10">
       <div class="text-7xl mb-4 inline-block animate-pulse">👁️‍🗨️</div>
@@ -744,8 +1474,12 @@
   </section>
 </main>
 
-<footer class="relative z-10 text-center py-8 text-amber-200/40 text-sm font-script">
-  ⚜ Pour les apprentis ingénieurs du Collège ⚜
+<footer class="game-footer">
+  <p class="footer-tagline">⚜ Pour les apprentis ingénieurs du Collège ⚜</p>
+  <p class="footer-copyright">
+    « Génie Maléfique — Le Cahier des Charges »<br>
+    © 2026 <strong>M. AGOSTINI</strong> · Collège ESTIC Don Bosco · Tous droits réservés
+  </p>
 </footer>
 
 <script>
@@ -1220,7 +1954,7 @@ function goToScreen(name) {
   if (name === 'select') renderObjectGrid();
 
   const scoreEl = document.getElementById('score-display');
-  if (name === 'welcome') {
+  if (name === 'welcome' || name === 'intro') {
     scoreEl.classList.add('hidden');
     scoreEl.classList.remove('flex');
   } else {
@@ -1578,9 +2312,53 @@ function retryCurrent() {
 }
 
 /* =========================================================
+   INTRO (navigation des slides)
+   ========================================================= */
+const INTRO_TOTAL = 5;
+let introCurrentSlide = 0;
+
+function goToIntroSlide(n) {
+  if (n < 0 || n >= INTRO_TOTAL) return;
+  introCurrentSlide = n;
+  const slides = document.querySelectorAll('.intro-slide');
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'past');
+    if (i === n) s.classList.add('active');
+    else if (i < n) s.classList.add('past');
+  });
+  const dots = document.querySelectorAll('.intro-dot');
+  dots.forEach((d, i) => {
+    d.classList.remove('active', 'visited');
+    if (i === n) d.classList.add('active');
+    else if (i < n) d.classList.add('visited');
+  });
+  document.getElementById('intro-prev').disabled = (n === 0);
+  const nextBtn = document.getElementById('intro-next');
+  nextBtn.textContent = (n === INTRO_TOTAL - 1) ? "Commencer ⚡" : "Suivant →";
+}
+
+function nextIntroSlide() {
+  if (introCurrentSlide < INTRO_TOTAL - 1) {
+    goToIntroSlide(introCurrentSlide + 1);
+  } else {
+    skipIntro();
+  }
+}
+
+function prevIntroSlide() {
+  if (introCurrentSlide > 0) {
+    goToIntroSlide(introCurrentSlide - 1);
+  }
+}
+
+function skipIntro() {
+  goToScreen('welcome');
+}
+
+/* =========================================================
    INIT
    ========================================================= */
-goToScreen('welcome');
+goToScreen('intro');
 </script>
 </body>
 </html>
